@@ -88,7 +88,7 @@ def collect_tweets_elevated(
     if recent:
         search_method = client.search_all_tweets
     else:
-        search_method = client.search_recent_tweets   
+        search_method = client.search_recent_tweets
     for i, tweets in enumerate(tweepy.Paginator(
         search_method,
         start_time=start_time,
@@ -159,7 +159,7 @@ def collect_tweets_elevated(
         # get tweet info inside each object
         for i, tweet in enumerate(tweets.data):
             new_row = {}
-        
+
             user = users[tweet.author_id]
             place = places[tweet.geo["place_id"]] if places and tweet.get("geo") else None
 
@@ -199,12 +199,12 @@ def collect_tweets_elevated(
                 "media_alt_text": tweet_media.get("alt_text") if tweet_media else None,
                 "media_view_count": (
                     tweet_media.get("public_metrics").get("view_count")
-                        if tweet_media and 
+                        if tweet_media and
                             tweet_media.get("public_metrics") and
                             tweet_media["public_metrics"].get("view_count")
                         else None
                 ),
-                
+
                 "place_id": place.get("id") if place else None,
                 "place_full_name": place.get("full_name") if place else None,
                 "place_contained_within": place.get("contained_within") if place else None,
@@ -227,7 +227,7 @@ def collect_tweets_elevated(
                 dump_data(
                     drive=gdrive,
                     data=data,
-                    filename=f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.json",
+                    filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
                     task_id=task_id,
                     gdrive_folder_id=gdrive_folder_id,
                     local_folder=local_folder
@@ -244,7 +244,7 @@ def collect_tweets_elevated(
     dump_data(
         drive=gdrive,
         data=data,
-        filename=f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.json",
+        filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
         task_id=task_id,
         gdrive_folder_id=gdrive_folder_id,
         local_folder=local_folder
@@ -276,6 +276,7 @@ def collect_tweets_default(
             'public_metrics',
             'referenced_tweets',
             'in_reply_to_user_id',
+            'text',
         ],
         user_fields = [
             'profile_image_url',
@@ -307,6 +308,7 @@ def collect_tweets_default(
         ],
         max_results=100
     )):
+
         logger.info(f"Retrieved page {i+1} -- Collected {total_collected} tweets so far.")
         if (max_results and len(collected_tweets) >= max_results) or not (tweets.includes.get('users')):
             break
@@ -315,11 +317,10 @@ def collect_tweets_default(
         users = {u["id"]: u for u in tweets.includes['users']}
         media = {media["media_key"]: media for media in tweets.includes.get("media")} if tweets.includes.get("media") else None
 
-
         # get tweet info inside each object
         for i, tweet in enumerate(tweets.data):
+
             new_row = {}
-        
             user = users[tweet.author_id]
 
             # get media
@@ -358,7 +359,7 @@ def collect_tweets_default(
                 "media_alt_text": tweet_media.get("alt_text") if tweet_media else None,
                 "media_view_count": (
                     tweet_media.get("public_metrics").get("view_count")
-                        if tweet_media and 
+                        if tweet_media and
                             tweet_media.get("public_metrics") and
                             tweet_media["public_metrics"].get("view_count")
                         else None
@@ -378,7 +379,7 @@ def collect_tweets_default(
                 dump_data(
                     drive=gdrive,
                     data=data,
-                    filename=f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.json",
+                    filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
                     task_id=task_id,
                     gdrive_folder_id=gdrive_folder_id,
                     local_folder=local_folder
@@ -395,7 +396,7 @@ def collect_tweets_default(
     dump_data(
         drive=gdrive,
         data=data,
-        filename=f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.json",
+        filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
         task_id=task_id,
         gdrive_folder_id=gdrive_folder_id,
         local_folder=local_folder
