@@ -1,27 +1,27 @@
 
 credentials:
-    twitter_credentials: "credentials/twitter_credential.json"
+    twitter_credentials: "credentials/twitter_credentials.json"
     google_drive_credentials: null
-    is_twitter_elevated_access: false 
+    is_twitter_elevated_access: false
 storage:
     gdrive_folder_id: null
     dump_to_google_drive: false
-    local_folder: "/tmp/"
+    local_folder: "datasets"
 collector:
-    task_id: "test"
-    query: "test"
-    max_results: null
-    dump_batch_size: 1000
+    task_id: "teste"
+    query: "(@augustosnunes OR @alexandregarcia OR @AnaPaulaVolei OR @Fiuzafirmao2 OR @veramagalhaes OR @NatuzaNery OR @juliaduailibi OR @gabeiracombr OR @renataloprete) (#DebateNaBand OR #HaddadNoRodaViva OR #LulaNoFlow OR #DebateNaGlobo OR #SabatinaJP) -is:retweet"
+    max_results: 5000
+    dump_batch_size: 10000
     start_time: null
     end_time: null
     recent: true
 database:
-    host: "localhost"
-    database: "twitter"
-    user: "postgres"
-    password: "postgres"
+    host: ""
+    database: ""
+    user: ""
+    password: ""
     tables:
         tweets: true
         users: true
-        media: true
+        media: false
         places: false
