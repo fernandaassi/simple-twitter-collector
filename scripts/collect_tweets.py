@@ -23,7 +23,7 @@ if __name__ == "__main__":
             raise Exception("Missing Google Drive credentials or Folder ID configuration attributes")
     else:
         gdrive = None
-    
+
     _, _, bearer_token = load_credentials(cfg.credentials.get("twitter_credentials"))
 
     client = tweepy.Client(bearer_token=bearer_token, wait_on_rate_limit=True)
@@ -53,4 +53,3 @@ if __name__ == "__main__":
             local_folder=cfg.storage.get("local_folder"),
             gdrive=gdrive
         )
-        
