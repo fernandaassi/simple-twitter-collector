@@ -5,8 +5,8 @@ from utils import auth_gdrive, load_credentials, collect_tweets_default, collect
 if __name__ == "__main__":
     cfg = Config()
 
-    if not cfg.collector.get("task_id"):
-        raise Exception("Missing Task ID configuration attribute")
+    # if not cfg.collector.get("task_id"):
+    #     raise Exception("Missing Task ID configuration attribute")
     if not cfg.collector.get("query"):
         raise Exception("Missing search query configuration attribute")
     if not cfg.storage.get("local_folder"):
@@ -40,7 +40,8 @@ if __name__ == "__main__":
             gdrive_folder_id=cfg.storage.get("gdrive_folder_id"),
             local_folder=cfg.storage.get("local_folder"),
             gdrive=gdrive,
-            recent=cfg.collector.get("recent")
+            filename=cfg.collector.get("filename"),
+            recent=cfg.collector.get("recent"),
         )
     else:
         collect_tweets_default(
@@ -51,5 +52,6 @@ if __name__ == "__main__":
             dump_batch_size=cfg.collector.get("dump_batch_size"),
             gdrive_folder_id=cfg.storage.get("gdrive_folder_id"),
             local_folder=cfg.storage.get("local_folder"),
-            gdrive=gdrive
+            gdrive=gdrive,
+            filename=cfg.collector.get("filename")
         )

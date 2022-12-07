@@ -3,6 +3,7 @@ from datetime import datetime
 import os
 from loguru import logger
 import json
+import pandas as pd
 import tweepy
 from sys import stderr
 from time import sleep
@@ -22,7 +23,8 @@ def dump_data(drive, data, filename, task_id, gdrive_folder_id, local_folder):
     if not os.path.exists(local_folder):
         os.mkdir(local_folder)
 
-    local_path = os.path.join(local_folder, task_id)
+    # local_path = os.path.join(local_folder, task_id)
+    local_path = local_folder
 
      # dump file locally
     if not os.path.exists(local_path):
@@ -30,8 +32,10 @@ def dump_data(drive, data, filename, task_id, gdrive_folder_id, local_folder):
 
     filepath = os.path.join(local_path, filename)
     logger.debug(f"LOCAL: Dumping {filename} to {local_path}")
-    with open(filepath, "w") as fp:
-        json.dump(data, fp)
+    df = pd.DataFrame(data=data['data'])
+    df.to_csv(filepath)
+    # with open(filepath, "w") as fp:
+    #     json.dump(data, fp)
 
     if drive:
         parent_id = gdrive_folder_id
@@ -81,6 +85,7 @@ def collect_tweets_elevated(
     dump_batch_size,
     gdrive_folder_id,
     local_folder,
+    filename,
     recent=False
 ):
     collected_tweets = []
@@ -227,7 +232,8 @@ def collect_tweets_elevated(
                 dump_data(
                     drive=gdrive,
                     data=data,
-                    filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
+                    filename = f"{filename}.csv",
+                    # filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
                     task_id=task_id,
                     gdrive_folder_id=gdrive_folder_id,
                     local_folder=local_folder
@@ -244,7 +250,8 @@ def collect_tweets_elevated(
     dump_data(
         drive=gdrive,
         data=data,
-        filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
+        # filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
+        filename = f"{filename}.csv",
         task_id=task_id,
         gdrive_folder_id=gdrive_folder_id,
         local_folder=local_folder
@@ -260,7 +267,8 @@ def collect_tweets_default(
     task_id,
     dump_batch_size,
     gdrive_folder_id,
-    local_folder
+    local_folder,
+    filename
 ):
     collected_tweets = []
     total_collected = 0
@@ -317,10 +325,19 @@ def collect_tweets_default(
         users = {u["id"]: u for u in tweets.includes['users']}
         media = {media["media_key"]: media for media in tweets.includes.get("media")} if tweets.includes.get("media") else None
 
+        # print("FORA DO FOR")
+
         # get tweet info inside each object
         for i, tweet in enumerate(tweets.data):
 
+            # print("TWEET")
+            # print("i:", i)
+            # print("tweet.text: ", tweet.text)
+            # print()
+            # print()
+
             new_row = {}
+
             user = users[tweet.author_id]
 
             # get media
@@ -379,7 +396,8 @@ def collect_tweets_default(
                 dump_data(
                     drive=gdrive,
                     data=data,
-                    filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
+                    # filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json"
+                    filename = f"{filename}.csv",
                     task_id=task_id,
                     gdrive_folder_id=gdrive_folder_id,
                     local_folder=local_folder
@@ -396,7 +414,8 @@ def collect_tweets_default(
     dump_data(
         drive=gdrive,
         data=data,
-        filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
+        # filename=f"{datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.json",
+        filename=f"{filename}.csv",
         task_id=task_id,
         gdrive_folder_id=gdrive_folder_id,
         local_folder=local_folder

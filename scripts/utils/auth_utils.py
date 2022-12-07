@@ -16,21 +16,22 @@ class Config:
                 f"""
                 -----Configs-----
                 Credentials:
-                    Twitter Credentials: {self.credentials.get('twitter_credentials')} 
+                    Twitter Credentials: {self.credentials.get('twitter_credentials')}
                     Google Drive Credentials: {self.credentials.get('google_drive_credentials')}
                     Has Twitter Elevated Access: {self.credentials.get('is_twitter_elevated_access')}
 
                 Storage:
-                    Dump To Google Drive: {self.storage.get('dump_to_google_drive')} 
+                    Dump To Google Drive: {self.storage.get('dump_to_google_drive')}
                     Main Google Drive Folder ID: {self.storage.get('gdrive_folder_id')}
-                    Local Folder: {self.storage.get('local_folder')} 
+                    Local Folder: {self.storage.get('local_folder')}
 
                 Collector:
-                    Task ID: {self.collector.get('task_id')} 
+                    Filename: {self.collector.get('filename')}
+                    Task ID: {self.storage.get('local_folder')}
                     Query: {self.collector.get('query')}
                     Max Results: {self.collector.get('max_results')}
                     Dump Batch Size: {self.collector.get('dump_batch_size')}
-                    Start Time: {self.collector.get('start_time')} 
+                    Start Time: {self.collector.get('start_time')}
                     End Time: {self.collector.get('end_time')}
                 """ + 18*"-"
             )
@@ -47,7 +48,7 @@ def load_credentials(filename):
 
 
 def auth_gdrive(client_secrets_path, cache_file="credentials/cached_google_credentials.txt"):
-    gauth = GoogleAuth()             
+    gauth = GoogleAuth()
 
     # Try to load cached client credentials, else launch webserver to auth
     gauth.LoadCredentialsFile(cache_file)
@@ -65,4 +66,3 @@ def auth_gdrive(client_secrets_path, cache_file="credentials/cached_google_crede
     gauth.SaveCredentialsFile(cache_file)
 
     return gauth
-
