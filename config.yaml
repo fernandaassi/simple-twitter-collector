@@ -8,10 +8,9 @@ storage:
     dump_to_google_drive: false
     local_folder: "datasets"
 collector:
-    task_id: "teste"
-    query: "(@augustosnunes OR @alexandregarcia OR @AnaPaulaVolei OR @Fiuzafirmao2 OR @veramagalhaes OR @NatuzaNery OR @juliaduailibi OR @gabeiracombr OR @renataloprete) (#DebateNaBand OR #HaddadNoRodaViva OR #LulaNoFlow OR #DebateNaGlobo OR #SabatinaJP) -is:retweet"
-    max_results: 5000
-    dump_batch_size: 10000
+    filename: "neutros"
+    query: "(from:gabeiracombr OR from:renataloprete OR from:BishopWack) -is:retweet"
+    max_results: 10000
     start_time: null
     end_time: null
     recent: true
