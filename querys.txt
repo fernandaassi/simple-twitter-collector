@@ -1,0 +1,15 @@
+# Bolsonaristas
+"(from:augustosnunes OR from:boletimcoppolla OR from:alexandregarcia OR from:anapaulavolei OR from:gfiuza_oficial) -is:retweet"
+
+# lulistas
+"(from:veramagalhaes OR from:NatuzaNery OR from:juliaduailibi OR from:octavio_guedes) -is:retweet"
+
+# Neutros
+"(from:gabeiracombr OR from:renataloprete OR from:BishopWack) -is:retweet"
+
+# Hashtags
+"(#debatenaglobo OR #debatenaband OR #sabatina OR #sabatinajp OR #lulanoflow OR #haddadnorodaviva OR #eleicoes2022) -is:retweet"
+
+# Context
+"10.35.131.912697101083041792" - Bolsonaro
+"10,35,131",862070591737675776 - Lula
